@@ -29,9 +29,9 @@ def num_eights(n):
         return 0
     else:
         if(n%10==8):
-            return num_eights(n/10)+1
+            return num_eights(n//10)+1
         else:
-            return num_eights(n/10)
+            return num_eights(n//10)
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -53,7 +53,12 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if(n<10):
+        return 0
+    else:
+        m1=n%10
+        m2=(n//10)%10
+        return digit_distance(n//10)+abs(m1-m2)
 
 def interleaved_sum(n, odd_term, even_term):
     """Compute the sum odd_term(1) + even_term(2) + odd_term(3) + ..., up
@@ -75,6 +80,12 @@ def interleaved_sum(n, odd_term, even_term):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(k,f1,f2):
+        if k==n:
+            return f1(k)
+        else:
+            return f1(k)+helper(k+1,f2,f1)
+    return helper(1,odd_term,even_term)
 
 
 def next_larger_coin(coin):
@@ -129,6 +140,23 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    # 答案之所以更简练是因为它的函数将<=max_unit的都计数了，
+    # 而我在最开始设想我的函数时却要求满足条件的都应该是max_unit,
+    # 所以比答案多了一个求和的过程
+    def coin_max_unit_count(n,max_unit):
+        if max_unit==1:
+            return 1
+        if n<0:
+            return 0
+        if max_unit==25:
+            return coin_max_unit_count(n-25,25)+coin_max_unit_count(n-10,10)+coin_max_unit_count(n-5,5)+coin_max_unit_count(n-1,1)
+        elif max_unit==10:
+            return coin_max_unit_count(n-10,10)+coin_max_unit_count(n-5,5)+coin_max_unit_count(n-1,1)
+        elif max_unit==5:
+            return coin_max_unit_count(n-5,5)+coin_max_unit_count(n-1,1)
+    return coin_max_unit_count(total,25)
+    
+
 
 
 def print_move(origin, destination):
@@ -179,5 +207,5 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return (lambda f: lambda k: f(f, k))(lambda f, k: k if k == 1 else mul(k, f(f, sub(k, 1))))
 
