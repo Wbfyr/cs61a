@@ -13,7 +13,8 @@ def my_map(fn, seq):
     2023
     [None, None, None]
     """
-    return ______
+    return [fn(elem) for elem in seq]
+
 
 def my_filter(pred, seq):
     """Keeps elements in seq only if they satisfy pred.
@@ -31,7 +32,8 @@ def my_filter(pred, seq):
     >>> my_filter(lambda x: max(5, x) == 5, [1, 2, 3, 4, 5, 6, 7])
     [1, 2, 3, 4, 5]
     """
-    return ______
+    return [elem for elem in seq if pred(elem)]
+
 
 def my_reduce(combiner, seq):
     """Combines elements in seq using combiner.
@@ -46,6 +48,13 @@ def my_reduce(combiner, seq):
     11
     """
     "*** YOUR CODE HERE ***"
+    if len(seq) == 1:
+        return seq[0]
+    else:
+        temp = combiner(seq[0], seq[1])
+        seq1 = [temp]+seq[2:]
+        return my_reduce(combiner, seq1)
+
 
 def my_map_syntax_check():
     """Check that your two_of_three code consists of nothing but a return statement.
@@ -56,6 +65,7 @@ def my_map_syntax_check():
     ['Expr', 'Return']
     """
     # You don't need to edit this function. It's just here to check your work.
+
 
 def my_filter_syntax_check():
     """Check that your two_of_three code consists of nothing but a return statement.
@@ -90,6 +100,13 @@ def double_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return False
+    else:
+        if n % 100 == 88:
+            return True
+        else:
+            return double_eights(n//10)
 
 
 def merge(lst1, lst2):
@@ -117,6 +134,12 @@ def merge(lst1, lst2):
     True
     """
     "*** YOUR CODE HERE ***"
+    if not lst1 or not lst2:
+        return lst1+lst2
+    elif lst1[0] < lst2[0]:
+        return [lst1[0]]+merge(lst1[1:], lst2)
+    else:
+        return [lst2[0]]+merge(lst1, lst2[1:])
 
 
 def summation(n, term):
@@ -138,6 +161,10 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        return term(1)
+    else:
+        return summation(n-1, term)+term(n)
 
 
 def count_palindromes(L):
@@ -148,4 +175,3 @@ def count_palindromes(L):
     2
     """
     return ______
-
