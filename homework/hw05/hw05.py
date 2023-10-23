@@ -86,12 +86,9 @@ def perms(seq):
         lst = next(perms(seq_alt))
         for i in range(len(seq_alt)):
             temp = lst
-            yield temp.insert(i, item)
+            temp.insert(i, item)
+            yield temp
 
-
-f = perms([1, 2, 3])
-while (1):
-    print(next(f))
 
 
 def yield_paths(t, value):
